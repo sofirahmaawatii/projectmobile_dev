@@ -1,7 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:projectmobile_dev/Home.dart';
+
+import 'screens/login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -14,15 +15,13 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    starSplashScreen();
-  }
 
-  starSplashScreen() async {
-    var duration = const Duration(seconds: 3);
+    Timer(const Duration(seconds: 3), () {
+      if (!mounted) return;
 
-    return Timer(duration, () {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const Home(title: 'Home')),
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const LoginScreen()),
       );
     });
   }
@@ -30,26 +29,36 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
+      body: Stack(
+        fit: StackFit.expand,
         children: [
-          Center(
-            child: Image.asset(
-              'assets/splash.jpg',
-              width: 300.0,
-              height: 100.0,
-              fit: BoxFit.contain,
-            ),
-          ),
-          SizedBox(height: 24.0),
-          Text(
-            'Matcha Mood ',
-            style: TextStyle(
-              fontSize: 30.0,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
+          Image.asset('assets/splash.jpg', fit: BoxFit.cover),
+
+          Container(color: const Color(0xFF26006B).withOpacity(0.18)),
+
+          // Logo, judul, dan loading
+          const Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.school, size: 80, color: Colors.white),
+
+                SizedBox(height: 16),
+
+                Text(
+                  'UNIGAL APPS',
+                  style: TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    letterSpacing: 1,
+                  ),
+                ),
+
+                SizedBox(height: 24),
+
+                CircularProgressIndicator(color: Colors.white),
+              ],
             ),
           ),
         ],
